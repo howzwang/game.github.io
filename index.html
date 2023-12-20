@@ -1,104 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>鬼腳圖遊戲</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
 
-        .board {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
+    #game-container {
+      position: relative;
+    }
 
-        .row {
-            display: flex;
-            margin: 10px;
-        }
-
-        .actor, .role {
-            position: relative;
-            width: 100px;
-            height: 40px;
-            border: 1px solid #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 5px;
-        }
-
-        .line {
-            position: absolute;
-            width: 2px;
-            height: 100%;
-            background-color: #000;
-        }
-
-        .leg {
-            position: absolute;
-            width: 30px;
-            height: 2px;
-            background-color: #000;
-        }
-    </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const actors = ["Actor 1", "Actor 2", "Actor 3"];
-            const roles = ["Role A", "Role B", "Role C"];
-
-            const board = document.getElementById("board");
-
-            // Create actors row
-            const actorRow = document.createElement("div");
-            actorRow.className = "row";
-            actors.forEach(actor => {
-                const actorDiv = document.createElement("div");
-                actorDiv.className = "actor";
-                actorDiv.textContent = actor;
-                actorRow.appendChild(actorDiv);
-            });
-            board.appendChild(actorRow);
-
-            // Create roles row
-            const roleRow = document.createElement("div");
-            roleRow.className = "row";
-            roles.forEach(role => {
-                const roleDiv = document.createElement("div");
-                roleDiv.className = "role";
-                roleDiv.textContent = role;
-                roleRow.appendChild(roleDiv);
-            });
-            board.appendChild(roleRow);
-
-            // Draw lines and legs
-            actors.forEach((actor, index) => {
-                const actorDiv = board.querySelector(`.actor:nth-child(${index + 1})`);
-                const roleDiv = board.querySelector(`.role:nth-child(${index + 1})`);
-
-                const line = document.createElement("div");
-                line.className = "line";
-                line.style.left = actorDiv.offsetLeft + actorDiv.offsetWidth / 2 + "px";
-                line.style.top = actorDiv.offsetTop + actorDiv.offsetHeight + "px";
-                board.appendChild(line);
-
-                const leg = document.createElement("div");
-                leg.className = "leg";
-                leg.style.left = line.offsetLeft - leg.offsetWidth / 2 + "px";
-                leg.style.top = line.offsetTop + "px";
-                board.appendChild(leg);
-            });
-        });
-    </script>
+    .footprint {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: #ff0000;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <div id="board" class="board"></div>
+  <div id="game-container">
+    <!-- Add footprints dynamically using JavaScript -->
+  </div>
+
+  <script>
+    // Number of footprints in the game
+    const footprintCount = 10;
+
+    // Function to generate a random position within the game container
+    function getRandomPosition() {
+      const container = document.getElementById('game-container');
+      const containerRect = container.getBoundingClientRect();
+
+      const x = Math.random() * (containerRect.width - 30);
+      const y = Math.random() * (containerRect.height - 30);
+
+      return { x, y };
+    }
+
+    // Function to create a footprint element
+    function createFootprint() {
+      const footprint = document.createElement('div');
+      footprint.className = 'footprint';
+
+      const position = getRandomPosition();
+      footprint.style.left = `${position.x}px`;
+      footprint.style.top = `${position.y}px`;
+
+      footprint.addEventListener('click', () => {
+        alert('You found a footprint!');
+        footprint.style.display = 'none';
+      });
+
+      return footprint;
+    }
+
+    // Function to initialize the game
+    function initGame() {
+      const gameContainer = document.getElementById('game-container');
+
+      for (let i = 0; i < footprintCount; i++) {
+        const footprint = createFootprint();
+        gameContainer.appendChild(footprint);
+      }
+    }
+
+    // Initialize the game when the page loads
+    window.addEventListener('load', initGame);
+  </script>
 </body>
 </html>
