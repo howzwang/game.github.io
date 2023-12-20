@@ -3,40 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ladder Climbing Game</title>
+    <title>Actor-Role Connection</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             text-align: center;
         }
 
-        #game-container {
+        #board {
             margin: 50px auto;
-            width: 400px;
-            height: 400px;
-            border: 2px solid #333;
+            width: 800px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
             position: relative;
-            overflow: hidden;
         }
 
-        #character {
-            width: 50px;
+        .set {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .actor, .role {
+            width: 120px;
             height: 50px;
             background-color: #00f;
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: transform 0.5s ease-out;
+            margin: 10px;
         }
 
-        #ladder {
-            width: 20px;
-            height: 400px;
-            background-color: #996633;
+        .connection-line {
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            background-color: #333;
+            height: 2px;
+            z-index: -1;
         }
 
         #start-btn {
@@ -49,49 +49,53 @@
             border: none;
             border-radius: 4px;
         }
-
-        /* Animation keyframes for climbing */
-        @keyframes climbAnimation {
-            0% { transform: translateY(0); }
-            25% { transform: translateY(-100px); }
-            50% { transform: translateY(-200px); }
-            75% { transform: translateY(-300px); }
-            100% { transform: translateY(-400px); }
-        }
-
-        /* Apply the climbing animation to the character */
-        .climbing {
-            animation: climbAnimation 2s ease-in-out;
-        }
     </style>
 </head>
 <body>
 
-    <h1>Ladder Climbing Game</h1>
+    <h1>Actor-Role Connection</h1>
 
-    <div id="game-container">
-        <div id="ladder"></div>
-        <div id="character"></div>
+    <div id="board">
+        <div class="set" id="set1">
+            <div class="actor">Actor A</div>
+            <div class="actor">Actor B</div>
+            <div class="actor">Actor C</div>
+        </div>
+
+        <div class="set" id="set2">
+            <div class="role">Role 1</div>
+            <div class="role">Role 2</div>
+            <div class="role">Role 3</div>
+        </div>
     </div>
 
-    <button id="start-btn" onclick="startClimbing()">Climb</button>
+    <button id="start-btn" onclick="connectActorsRoles()">Connect</button>
 
     <script>
-        function startClimbing() {
-            const character = document.getElementById('character');
+        function connectActorsRoles() {
+            const set1 = document.getElementById('set1');
+            const set2 = document.getElementById('set2');
+            const board = document.getElementById('board');
 
-            // Disable button during the climb
+            // Disable button during the connection
             document.getElementById('start-btn').disabled = true;
 
-            // Add the climbing class to apply the animation
-            character.classList.add('climbing');
+            // Add connection lines
+            set1.childNodes.forEach((actor, index) => {
+                const role = set2.childNodes[index];
+                const line = document.createElement('div');
+                line.classList.add('connection-line');
+                line.style.width = '2px';
+                line.style.left = `${actor.offsetLeft + actor.offsetWidth / 2}px`;
+                line.style.top = `${actor.offsetTop + actor.offsetHeight}px`;
+                line.style.height = `${role.offsetTop - (actor.offsetTop + actor.offsetHeight)}px`;
+                board.appendChild(line);
+            });
 
-            // Enable the button when the climb is complete
+            // Enable the button when the connection is complete
             setTimeout(() => {
                 document.getElementById('start-btn').disabled = false;
-                // Remove the climbing class to reset the animation
-                character.classList.remove('climbing');
-            }, 2000); // 2 seconds is the duration of the climbing animation
+            }, 200); // A small delay for visual effect
         }
     </script>
 
