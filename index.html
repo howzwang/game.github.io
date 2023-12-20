@@ -49,6 +49,20 @@
             border: none;
             border-radius: 4px;
         }
+
+        /* Animation keyframes for climbing */
+        @keyframes climbAnimation {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(-100px); }
+            50% { transform: translateY(-200px); }
+            75% { transform: translateY(-300px); }
+            100% { transform: translateY(-400px); }
+        }
+
+        /* Apply the climbing animation to the character */
+        .climbing {
+            animation: climbAnimation 2s ease-in-out;
+        }
     </style>
 </head>
 <body>
