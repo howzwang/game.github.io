@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ladder Game</title>
+    <title>Ghost Leg Game</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,57 +12,70 @@
             margin: 20px;
         }
 
-        #ladder-container {
-            width: 400px;
-            margin: 0 auto;
-            position: relative;
+        .step {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            margin: 5px;
         }
 
-        .player {
-            width: 50px;
-            height: 50px;
-            background-color: blue;
-            position: absolute;
-            bottom: 0;
-            left: 0;
+        .ghost-leg {
+            border-top: 2px dashed red;
+            margin-top: -3px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>Ladder Game</h1>
-    <p>Click the "Roll the Die" button to climb the ladder.</p>
+    <h1>Ghost Leg Game</h1>
+    <p>Click "Start" to shuffle the steps and reveal the ghost leg!</p>
 
-    <div id="ladder-container">
-        <div class="player" id="player"></div>
+    <div id="game-container">
+        <!-- Steps will be dynamically generated here -->
     </div>
 
-    <button onclick="rollDie()">Roll the Die</button>
+    <button onclick="startGame()">Start</button>
 
     <script>
-        var playerPosition = 0;
-
-        function rollDie() {
-            var diceRoll = Math.floor(Math.random() * 6) + 1;
-            movePlayer(diceRoll);
+        function startGame() {
+            var steps = generateSteps(5); // Change the number of steps as needed
+            drawSteps(steps);
+            drawGhostLeg(steps);
         }
 
-        function movePlayer(steps) {
-            playerPosition += steps * 40; // Each step is 40 pixels
-            updatePlayerPosition();
-            
-            if (playerPosition >= 400) {
-                alert('Congratulations! You reached the top of the ladder!');
-                resetGame();
+        function generateSteps(numSteps) {
+            var steps = [];
+            for (var i = 1; i <= numSteps; i++) {
+                steps.push(i);
             }
+            return steps;
         }
 
-        function updatePlayerPosition() {
-            document.getElementById('player').style.left = playerPosition + 'px';
+        function drawSteps(steps) {
+            var gameContainer = document.getElementById('game-container');
+            gameContainer.innerHTML = '';
+
+            steps.forEach(function (step) {
+                var stepElement = document.createElement('div');
+                stepElement.className = 'step';
+                stepElement.innerText = step;
+                gameContainer.appendChild(stepElement);
+            });
         }
 
-        function resetGame() {
-            playerPosition = 0;
-            updatePlayerPosition();
+        function drawGhostLeg(steps) {
+            var randomIndex = Math.floor(Math.random() * steps.length);
+            var ghostLegStep = steps[randomIndex];
+
+            var ghostLegElement = document.querySelector('.step:nth-child(' + ghostLegStep + ')');
+            ghostLegElement.classList.add('ghost-leg');
         }
     </script>
 </body>
