@@ -30,6 +30,7 @@
             height: 50px;
             background-color: #00f;
             margin: 10px;
+            transition: transform 0.5s ease-out;
         }
 
         .connection-line {
@@ -58,11 +59,6 @@
             75% { transform: translateY(-300px); }
             100% { transform: translateY(-400px); }
         }
-
-        /* Apply the climbing animation to the character */
-        .climbing {
-            animation: climbAnimation 2s ease-in-out;
-        }
     </style>
 </head>
 <body>
@@ -89,10 +85,15 @@
         function connectActorsRoles() {
             const set1 = document.getElementById('set1');
             const set2 = document.getElementById('set2');
-            const board = document.getElementById('board');
+            const actors = set1.getElementsByClassName('actor');
 
             // Disable button during the connection
             document.getElementById('start-btn').disabled = true;
+
+            // Apply climbing animation to each actor
+            Array.from(actors).forEach((actor, index) => {
+                actor.style.transform = 'translateY(-400px)'; // Apply the end state of the climbing animation
+            });
 
             // Add connection lines
             set1.childNodes.forEach((actor, index) => {
@@ -103,13 +104,13 @@
                 line.style.left = `${actor.offsetLeft + actor.offsetWidth / 2}px`;
                 line.style.top = `${actor.offsetTop + actor.offsetHeight}px`;
                 line.style.height = `${role.offsetTop - (actor.offsetTop + actor.offsetHeight)}px`;
-                board.appendChild(line);
+                document.getElementById('board').appendChild(line);
             });
 
             // Enable the button when the connection is complete
             setTimeout(() => {
                 document.getElementById('start-btn').disabled = false;
-            }, 200); // A small delay for visual effect
+            }, 500); // A small delay for visual effect
         }
     </script>
 
