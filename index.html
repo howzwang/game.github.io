@@ -4,20 +4,65 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ladder Lottery Game</title>
+    <title>Ladder Game</title>
     <style>
-        /* Add your styles here */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #ladder-container {
+            width: 400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .player {
+            width: 50px;
+            height: 50px;
+            background-color: blue;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
     </style>
 </head>
 <body>
-    <h1>Ladder Lottery Game</h1>
+    <h1>Ladder Game</h1>
+    <p>Click the "Roll the Die" button to climb the ladder.</p>
+
+    <div id="ladder-container">
+        <div class="player" id="player"></div>
+    </div>
+
     <button onclick="rollDie()">Roll the Die</button>
-    <p id="result"></p>
 
     <script>
+        var playerPosition = 0;
+
         function rollDie() {
             var diceRoll = Math.floor(Math.random() * 6) + 1;
-            document.getElementById('result').innerText = `You rolled a ${diceRoll}.`;
+            movePlayer(diceRoll);
+        }
+
+        function movePlayer(steps) {
+            playerPosition += steps * 40; // Each step is 40 pixels
+            updatePlayerPosition();
+            
+            if (playerPosition >= 400) {
+                alert('Congratulations! You reached the top of the ladder!');
+                resetGame();
+            }
+        }
+
+        function updatePlayerPosition() {
+            document.getElementById('player').style.left = playerPosition + 'px';
+        }
+
+        function resetGame() {
+            playerPosition = 0;
+            updatePlayerPosition();
         }
     </script>
 </body>
