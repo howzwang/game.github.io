@@ -3,116 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actor-Role Connection</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-        }
-
-        #board {
-            margin: 50px auto;
-            width: 800px;
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            position: relative;
-        }
-
-        .set {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .actor, .role {
-            width: 120px;
-            height: 50px;
-            background-color: #00f;
-            margin: 10px;
-            transition: transform 0.5s ease-out;
-        }
-
-        .connection-line {
-            position: absolute;
-            background-color: #333;
-            height: 2px;
-            z-index: -1;
-        }
-
-        #start-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #4caf50;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-        }
-
-        /* Animation keyframes for climbing */
-        @keyframes climbAnimation {
-            0% { transform: translateY(0); }
-            25% { transform: translateY(-100px); }
-            50% { transform: translateY(-200px); }
-            75% { transform: translateY(-300px); }
-            100% { transform: translateY(-400px); }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <title>Ghost Leg Game</title>
 </head>
 <body>
-
-    <h1>Actor-Role Connection</h1>
-
-    <div id="board">
-        <div class="set" id="set1">
-            <div class="actor">Actor A</div>
-            <div class="actor">Actor B</div>
-            <div class="actor">Actor C</div>
-        </div>
-
-        <div class="set" id="set2">
-            <div class="role">Role 1</div>
-            <div class="role">Role 2</div>
-            <div class="role">Role 3</div>
-        </div>
+    <div class="container">
+        <h1>Ghost Leg Game</h1>
+        <div id="legs-container"></div>
+        <button onclick="shuffleLegs()">Shuffle Legs</button>
     </div>
-
-    <button id="start-btn" onclick="connectActorsRoles()">Connect</button>
-
-    <script>
-        function connectActorsRoles() {
-            const set1 = document.getElementById('set1');
-            const set2 = document.getElementById('set2');
-            const actors = set1.getElementsByClassName('actor');
-
-            // Disable button during the connection
-            document.getElementById('start-btn').disabled = true;
-
-            // Apply climbing animation to each actor
-            Array.from(actors).forEach((actor, index) => {
-                actor.style.transform = 'translateY(-400px)'; // Apply the end state of the climbing animation
-            });
-
-            // Add connection lines
-            set1.childNodes.forEach((actor, index) => {
-                const role = set2.childNodes[index];
-                const line = document.createElement('div');
-                line.classList.add('connection-line');
-                line.style.width = '2px';
-                line.style.left = `${actor.offsetLeft + actor.offsetWidth / 2}px`;
-                line.style.top = `${actor.offsetTop + actor.offsetHeight}px`;
-                line.style.height = `${role.offsetTop - (actor.offsetTop + actor.offsetHeight)}px`;
-                document.getElementById('board').appendChild(line);
-            });
-
-            // Enable the button when the connection is complete
-            setTimeout(() => {
-                document.getElementById('start-btn').disabled = false;
-            }, 500); // A small delay for visual effect
-        }
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
