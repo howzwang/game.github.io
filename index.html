@@ -16,6 +16,9 @@
 
     #game-container {
       position: relative;
+      width: 300px; /* 設定遊戲容器的寬度 */
+      height: 300px; /* 設定遊戲容器的高度 */
+      border: 1px solid #ccc; /* 加入邊框，方便觀察 */
     }
 
     .footprint {
@@ -29,15 +32,11 @@
   </style>
 </head>
 <body>
-  <div id="game-container">
-    <!-- Add footprints dynamically using JavaScript -->
-  </div>
+  <div id="game-container"></div>
 
   <script>
-    // Number of footprints in the game
     const footprintCount = 10;
 
-    // Function to generate a random position within the game container
     function getRandomPosition() {
       const container = document.getElementById('game-container');
       const containerRect = container.getBoundingClientRect();
@@ -48,7 +47,6 @@
       return { x, y };
     }
 
-    // Function to create a footprint element
     function createFootprint() {
       const footprint = document.createElement('div');
       footprint.className = 'footprint';
@@ -65,7 +63,6 @@
       return footprint;
     }
 
-    // Function to initialize the game
     function initGame() {
       const gameContainer = document.getElementById('game-container');
 
@@ -75,7 +72,6 @@
       }
     }
 
-    // Initialize the game when the page loads
     window.addEventListener('load', initGame);
   </script>
 </body>
