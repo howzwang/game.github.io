@@ -18,46 +18,39 @@
         }
 
         #board-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px auto;
             position: relative;
         }
 
-        .board-row {
-            display: flex;
-            justify-content: space-around;
-            width: 80%;
-        }
-
         .actor, .role {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border: 2px solid #333;
             border-radius: 50%;
             margin: 10px;
             padding: 10px;
-            font-size: 12px;
+            font-size: 14px;
             color: #333;
             background-color: #fff;
+            position: absolute;
+            transition: opacity 0.3s;
         }
 
         .leg {
             border-top: 2px solid #333;
-            width: 40px;
-            height: 10px;
+            width: 60px;
             position: absolute;
-            top: 50px;
             z-index: -1;
+            transition: opacity 0.3s;
         }
 
         .path {
             border: 2px solid red;
             border-radius: 50%;
+            width: 60px;
             position: absolute;
-            top: 50px;
             z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         button {
@@ -99,63 +92,73 @@
             var boardContainer = document.getElementById('board-container');
             boardContainer.innerHTML = '';
 
-            var actorRow = document.createElement('div');
-            actorRow.className = 'board-row';
-
-            actors.forEach(function (actor) {
+            actors.forEach(function (actor, index) {
                 var actorElement = document.createElement('div');
                 actorElement.className = 'actor';
                 actorElement.innerText = actor;
-                actorRow.appendChild(actorElement);
+                actorElement.style.left = (index * 80) + 'px';
+                boardContainer.appendChild(actorElement);
             });
 
-            boardContainer.appendChild(actorRow);
-
-            var roleRow = document.createElement('div');
-            roleRow.className = 'board-row';
-
-            roles.forEach(function (role) {
+            roles.forEach(function (role, index) {
                 var roleElement = document.createElement('div');
                 roleElement.className = 'role';
                 roleElement.innerText = role;
-                roleRow.appendChild(roleElement);
+                roleElement.style.left = (index * 80) + 'px';
+                roleElement.style.top = '120px';
+                boardContainer.appendChild(roleElement);
             });
-
-            boardContainer.appendChild(roleRow);
         }
 
         function addLegs() {
             var boardContainer = document.getElementById('board-container');
-            var actorRow = boardContainer.querySelector('.board-row:nth-child(1)');
-            var roleRow = boardContainer.querySelector('.board-row:nth-child(2)');
+            var actors = boardContainer.querySelectorAll('.actor');
+            var roles = boardContainer.querySelectorAll('.role');
 
-            var legsContainer = document.createElement('div');
-            legsContainer.style.position = 'relative';
-
-            for (var i = 0; i < actorRow.children.length; i++) {
+            actors.forEach(function (actor, index) {
                 var leg = document.createElement('div');
                 leg.className = 'leg';
-                leg.style.left = actorRow.children[i].offsetLeft + 'px';
-                legsContainer.appendChild(leg);
-            }
+                leg.style.left = (index * 80) + 'px';
+                boardContainer.appendChild(leg);
+            });
 
-            boardContainer.appendChild(legsContainer);
+            roles.forEach(function (role, index) {
+                var leg = document.createElement('div');
+                leg.className = 'leg';
+                leg.style.left = (index * 80) + 'px';
+                leg.style.top = '120px';
+                boardContainer.appendChild(leg);
+            });
         }
 
         function tracePaths() {
             var boardContainer = document.getElementById('board-container');
-            var legsContainer = boardContainer.querySelector(':scope > div:last-child');
-            var pathsContainer = document.createElement('div');
-            pathsContainer.style.position = 'relative';
+            var actors = boardContainer.querySelectorAll('.actor');
+            var roles = boardContainer.querySelectorAll('.role');
 
-            for (var i = 0; i < legsContainer.children.length; i++) {
+            actors.forEach(function (actor, index) {
                 var path = document.createElement('div');
                 path.className = 'path';
-                path.style.left = legsContainer.children[i].offsetLeft + 'px';
-                pathsContainer.appendChild(path);
-            }
+                path.style.left = (index * 80) + 'px';
+                boardContainer.appendChild(path);
+            });
 
-            boardContainer.appendChild(pathsContainer);
+            roles.forEach(function (role, index) {
+                var path = document.createElement('div');
+                path.className = 'path';
+                path.style.left = (index * 80) + 'px';
+                path.style.top = '120px';
+                boardContainer.appendChild(path);
+            });
+
+            // Triggering reflow to enable transition
+            void path.offsetWidth;
+
+            // Set opacity to 1 for transition effect
+            var paths = boardContainer.querySelectorAll('.path');
+            paths.forEach(function (path) {
+                path.style.opacity = 1;
+            });
         }
     </script>
 </body>
