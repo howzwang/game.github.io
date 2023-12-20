@@ -20,6 +20,29 @@ button {
 
 #legs-container {
     margin-top: 20px;
-    font-size: 24px;
+}
+
+.vertical-line {
+    position: relative;
+    display: inline-block;
+    border-left: 2px solid #333;
+    height: 150px; /* Adjust the height as needed */
+}
+
+.horizontal-line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+}
+
+.thing-label {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 5px;
     font-weight: bold;
 }
