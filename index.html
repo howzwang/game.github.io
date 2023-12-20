@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghost Leg Game</title>
+    <title>Random Pairings Game</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -17,7 +17,7 @@
             color: #333;
         }
 
-        #game-container {
+        #pairings-container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -26,25 +26,19 @@
             margin: 20px auto;
         }
 
-        .step {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            width: 60px;
+        .pairing {
+            width: 120px;
             height: 60px;
             border: 2px solid #333;
-            border-radius: 50%;
+            border-radius: 5px;
             margin: 10px;
-            font-size: 18px;
+            padding: 10px;
+            font-size: 16px;
             color: #333;
             background-color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .ghost-leg {
-            border-top: 4px dashed red;
-            animation: ghostLegAnimation 2s infinite;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
         }
 
         button {
@@ -67,88 +61,66 @@
             padding: 8px;
             font-size: 16px;
         }
-
-        @keyframes ghostLegAnimation {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
     </style>
 </head>
 <body>
-    <h1>Ghost Leg Game</h1>
+    <h1>Random Pairings Game</h1>
     
-    <label for="numRows">Number of Rows:</label>
-    <input type="number" id="numRows" min="1" value="4">
+    <label for="setASize">Number of items in Set A:</label>
+    <input type="number" id="setASize" min="1" value="4">
 
-    <label for="stepsPerRow">Steps per Row:</label>
-    <input type="number" id="stepsPerRow" min="1" value="5">
+    <label for="setBSize">Number of items in Set B:</label>
+    <input type="number" id="setBSize" min="1" value="4">
 
-    <div id="game-container">
-        <!-- Steps will be dynamically generated here -->
+    <div id="pairings-container">
+        <!-- Pairings will be dynamically generated here -->
     </div>
 
-    <button onclick="startGame()">Start</button>
+    <button onclick="generatePairings()">Generate Pairings</button>
 
     <script>
-        function startGame() {
-            var numRows = parseInt(document.getElementById('numRows').value);
-            var stepsPerRow = parseInt(document.getElementById('stepsPerRow').value);
+        function generatePairings() {
+            var setASize = parseInt(document.getElementById('setASize').value);
+            var setBSize = parseInt(document.getElementById('setBSize').value);
 
-            var steps = generateSteps(numRows, stepsPerRow);
-            drawSteps(steps);
-            drawGhostLeg(steps);
+            var setA = generateSet(setASize, 'A');
+            var setB = generateSet(setBSize, 'B');
+
+            var pairings = createRandomPairings(setA, setB);
+            drawPairings(pairings);
         }
 
-        function generateSteps(numRows, stepsPerRow) {
-            var steps = [];
-            for (var i = 1; i <= numRows; i++) {
-                var row = [];
-                for (var j = 1; j <= stepsPerRow; j++) {
-                    row.push(j);
-                }
-                steps.push(row);
+        function generateSet(size, setName) {
+            var set = [];
+            for (var i = 1; i <= size; i++) {
+                set.push(setName + i);
             }
-            return steps;
+            return set;
         }
 
-        function drawSteps(steps) {
-            var gameContainer = document.getElementById('game-container');
-            gameContainer.innerHTML = '';
+        function createRandomPairings(setA, setB) {
+            var pairings = [];
+            var tempSetB = setB.slice();
 
-            steps.forEach(function (row, rowIndex) {
-                row.forEach(function (step, stepIndex) {
-                    var stepElement = document.createElement('div');
-                    stepElement.className = 'step';
-                    stepElement.innerText = step;
-                    stepElement.setAttribute('onclick', 'selectStep(' + rowIndex + ', ' + stepIndex + ')');
-                    gameContainer.appendChild(stepElement);
-                });
+            setA.forEach(function (itemA) {
+                var randomIndex = Math.floor(Math.random() * tempSetB.length);
+                var itemB = tempSetB.splice(randomIndex, 1)[0];
+                pairings.push({ A: itemA, B: itemB });
             });
+
+            return pairings;
         }
 
-        function drawGhostLeg(steps) {
-            var randomRowIndex = Math.floor(Math.random() * steps.length);
-            var randomStepIndex = Math.floor(Math.random() * steps[randomRowIndex].length);
+        function drawPairings(pairings) {
+            var pairingsContainer = document.getElementById('pairings-container');
+            pairingsContainer.innerHTML = '';
 
-            var ghostLegElement = document.querySelector('.step:nth-child(' + (randomRowIndex * steps[0].length + randomStepIndex + 1) + ')');
-            ghostLegElement.classList.add('ghost-leg');
-        }
-
-        function selectStep(rowIndex, stepIndex) {
-            alert('You selected step ' + (stepIndex + 1) + ' on row ' + (rowIndex + 1) + '! Game Over!');
-            resetGame();
-        }
-
-        function resetGame() {
-            var ghostLegElement = document.querySelector('.ghost-leg');
-            if (ghostLegElement) {
-                ghostLegElement.classList.remove('ghost-leg');
-            }
-            startGame();
+            pairings.forEach(function (pairing) {
+                var pairingElement = document.createElement('div');
+                pairingElement.className = 'pairing';
+                pairingElement.innerText = pairing.A + ' - ' + pairing.B;
+                pairingsContainer.appendChild(pairingElement);
+            });
         }
     </script>
 </body>
