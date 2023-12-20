@@ -62,6 +62,12 @@
             background-color: #45a049;
         }
 
+        input {
+            margin: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+
         @keyframes ghostLegAnimation {
             0%, 100% {
                 transform: translateY(0);
@@ -74,7 +80,12 @@
 </head>
 <body>
     <h1>Ghost Leg Game</h1>
-    <p>Click "Start" to shuffle the steps and reveal the ghost leg!</p>
+    
+    <label for="numRows">Number of Rows:</label>
+    <input type="number" id="numRows" min="1" value="4">
+
+    <label for="stepsPerRow">Steps per Row:</label>
+    <input type="number" id="stepsPerRow" min="1" value="5">
 
     <div id="game-container">
         <!-- Steps will be dynamically generated here -->
@@ -84,15 +95,22 @@
 
     <script>
         function startGame() {
-            var steps = generateSteps(5); // Change the number of steps as needed
+            var numRows = parseInt(document.getElementById('numRows').value);
+            var stepsPerRow = parseInt(document.getElementById('stepsPerRow').value);
+
+            var steps = generateSteps(numRows, stepsPerRow);
             drawSteps(steps);
             drawGhostLeg(steps);
         }
 
-        function generateSteps(numSteps) {
+        function generateSteps(numRows, stepsPerRow) {
             var steps = [];
-            for (var i = 1; i <= numSteps; i++) {
-                steps.push(i);
+            for (var i = 1; i <= numRows; i++) {
+                var row = [];
+                for (var j = 1; j <= stepsPerRow; j++) {
+                    row.push(j);
+                }
+                steps.push(row);
             }
             return steps;
         }
@@ -101,25 +119,27 @@
             var gameContainer = document.getElementById('game-container');
             gameContainer.innerHTML = '';
 
-            steps.forEach(function (step) {
-                var stepElement = document.createElement('div');
-                stepElement.className = 'step';
-                stepElement.innerText = step;
-                stepElement.setAttribute('onclick', 'selectStep(' + step + ')');
-                gameContainer.appendChild(stepElement);
+            steps.forEach(function (row, rowIndex) {
+                row.forEach(function (step, stepIndex) {
+                    var stepElement = document.createElement('div');
+                    stepElement.className = 'step';
+                    stepElement.innerText = step;
+                    stepElement.setAttribute('onclick', 'selectStep(' + rowIndex + ', ' + stepIndex + ')');
+                    gameContainer.appendChild(stepElement);
+                });
             });
         }
 
         function drawGhostLeg(steps) {
-            var randomIndex = Math.floor(Math.random() * steps.length);
-            var ghostLegStep = steps[randomIndex];
+            var randomRowIndex = Math.floor(Math.random() * steps.length);
+            var randomStepIndex = Math.floor(Math.random() * steps[randomRowIndex].length);
 
-            var ghostLegElement = document.querySelector('.step:nth-child(' + ghostLegStep + ')');
+            var ghostLegElement = document.querySelector('.step:nth-child(' + (randomRowIndex * steps[0].length + randomStepIndex + 1) + ')');
             ghostLegElement.classList.add('ghost-leg');
         }
 
-        function selectStep(selectedStep) {
-            alert('You selected step ' + selectedStep + '! Game Over!');
+        function selectStep(rowIndex, stepIndex) {
+            alert('You selected step ' + (stepIndex + 1) + ' on row ' + (rowIndex + 1) + '! Game Over!');
             resetGame();
         }
 
