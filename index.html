@@ -3,14 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pairing Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Amidakuji Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #amidakuji-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 80%;
+            margin: 10px 0;
+        }
+        .line div {
+            width: 20px;
+            height: 50px;
+            border: 1px solid #333;
+        }
+        .start-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <div class="container" id="game-container">
-        <!-- Game cards will be generated here using JavaScript -->
-    </div>
 
-    <script src="script.js"></script>
+<div id="amidakuji-container">
+    <div class="line" id="line1"></div>
+    <div class="line" id="line2"></div>
+    <div class="line" id="line3"></div>
+    <div class="line" id="line4"></div>
+    <div class="line" id="line5"></div>
+    <div class="line" id="line6"></div>
+    <button class="start-btn" onclick="startAmidakuji()">Start Amidakuji</button>
+</div>
+
+<script>
+    function startAmidakuji() {
+        resetLines();
+        let lines = document.querySelectorAll('.line');
+        let result = [];
+
+        for (let i = 0; i < lines.length; i++) {
+            let randomIndex = Math.floor(Math.random() * 2);
+            result.push(randomIndex);
+            lines[i].children[randomIndex].classList.add('active');
+        }
+
+        // Display the result (optional)
+        console.log(result);
+    }
+
+    function resetLines() {
+        let lines = document.querySelectorAll('.line');
+        for (let i = 0; i < lines.length; i++) {
+            let cells = lines[i].children;
+            for (let j = 0; j < cells.length; j++) {
+                cells[j].classList.remove('active');
+            }
+        }
+    }
+</script>
+
 </body>
 </html>
