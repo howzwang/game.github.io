@@ -21,10 +21,10 @@
 
         .vertical-line {
             width: 2px;
-            height: 100px;
             background-color: #333;
             margin: 0 20px;
             position: relative;
+            flex: 1;
         }
 
         .horizontal-line {
@@ -34,7 +34,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-1px);
-            transition: width 1s ease-in-out;
+            transition: width 1s ease-in-out, background-color 1s ease-in-out;
         }
 
         .pair {
@@ -78,9 +78,13 @@
             const ladderContainer = document.getElementById('ladder-container');
             ladderContainer.innerHTML = '';
 
+            // Determine the maximum height of the vertical lines
+            const maxHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
             pairs.forEach(pair => {
                 const verticalLine = document.createElement('div');
                 verticalLine.classList.add('vertical-line');
+                verticalLine.style.height = `${maxHeight}px`;
                 ladderContainer.appendChild(verticalLine);
 
                 const horizontalLine = document.createElement('div');
@@ -113,10 +117,4 @@
         const set1Names = ['Player1', 'Player2', 'Player3', 'Player4'];
         const set2Numbers = [1, 2, 3, 4];
 
-        // Create ladder pairs and display with animation
-        const ladderPairs = createLadderPairs(set1Names, set2Numbers);
-        displayLadderWithAnimation(ladderPairs);
-    </script>
-</body>
-
-</html>
+        // Creat
