@@ -1,17 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Ghost Leg Game</title>
+    <title>Ladder Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #ladder-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pair {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            position: relative;
+            animation: pathAnimation 1s ease-out;
+        }
+
+        @keyframes pathAnimation {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Ghost Leg Game</h1>
-        <div id="legs-container"></div>
-        <button onclick="shuffleLegs()">Shuffle Legs</button>
-    </div>
-    <script src="script.js"></script>
+    <h1>Ladder Game</h1>
+
+    <div id="ladder-container"></div>
+
+    <script>
+        // Function to shuffle an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Function to create ladder pairs
+        function createLadderPairs(names, numbers) {
+            const pairs = [];
+            shuffleArray(names);
+            shuffleArray(numbers);
+
+            for (let i = 0; i < names.length; i++) {
+                pairs.push({ name: names[i], number: numbers[i] });
+            }
+
+            return pairs;
+        }
+
+        // Function to display ladder pairs with animation
+        function displayLadderWithAnimation(pairs) {
+            const ladderContainer = document.getElementById('ladder-container');
+            ladderContainer.innerHTML = '';
+
+            pairs.forEach((pair, index) => {
+                setTimeout(() => {
+                    const pairElement = document.createElement('div');
+                    pairElement.classList.add('pair');
+                    pairElement.textContent = `${pair.name} - ${pair.number}`;
+                    ladderContainer.appendChild(pairElement);
+                }, index * 1000); // 1000ms delay between each pair for animation duration
+            });
+        }
+
+        // Sample data
+        const set1Names = ['Player1', 'Player2', 'Player3', 'Player4'];
+        const set2Numbers = [1, 2, 3, 4];
+
+        // Create ladder pairs and display with animation
+        const ladderPairs = createLadderPairs(set1Names, set2Numbers);
+        displayLadderWithAnimation(ladderPairs);
+    </script>
 </body>
+
 </html>
