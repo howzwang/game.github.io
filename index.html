@@ -33,6 +33,37 @@
             background-color: #f2f2f2;
         }
 
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -56,6 +87,16 @@
 
     <h1>Lottery Game</h1>
 
+    <form id="lotteryForm">
+        <label for="playerName">Your Name:</label>
+        <input type="text" id="playerName" name="playerName" required>
+
+        <label for="playerNumber">Your Number:</label>
+        <input type="text" id="playerNumber" name="playerNumber" required>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
     <table>
         <thead>
             <tr>
@@ -64,36 +105,26 @@
                 <th>Winning Number</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>Player 1</td>
-                <td>123</td>
-                <td>456</td>
-            </tr>
-            <tr>
-                <td>Player 2</td>
-                <td>789</td>
-                <td>234</td>
-            </tr>
-            <!-- Add more rows as needed -->
+        <tbody id="lotteryResults">
+            <!-- Results will be dynamically added here -->
         </tbody>
     </table>
 
     <script>
-        // Add a simple animation on row hover using JavaScript
-        const rows = document.querySelectorAll('tbody tr');
+        function submitForm() {
+            const playerName = document.getElementById('playerName').value;
+            const playerNumber = document.getElementById('playerNumber').value;
 
-        rows.forEach(row => {
-            row.addEventListener('mouseover', () => {
-                row.style.animation = 'highlight 0.5s forwards';
-            });
+            const tableBody = document.getElementById('lotteryResults');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `<td>${playerName}</td><td>${playerNumber}</td><td>${getRandomNumber()}</td>`;
+            tableBody.appendChild(newRow);
+        }
 
-            row.addEventListener('mouseout', () => {
-                row.style.animation = 'none';
-                void row.offsetWidth; // Trigger reflow to restart the animation on mouseover
-                row.style.animation = null;
-            });
-        });
+        function getRandomNumber() {
+            // Generate a random winning number (customize as needed)
+            return Math.floor(Math.random() * 1000) + 1;
+        }
     </script>
 
 </body>
