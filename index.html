@@ -3,149 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Amidakuji Game</title>
+    <title>Amidakuji Game</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 20px;
         }
-        #amidakuji-container {
+
+        #game-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .line-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .line {
-            display: flex;
-            align-items: center;
             justify-content: space-between;
-            width: 80%;
-            margin: 10px 0;
+            margin-top: 30px;
         }
-        .line div {
+
+        .line {
+            width: 2px;
+            height: 100px;
+            background-color: black;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dot {
             width: 20px;
-            height: 50px;
-            border: 1px solid #333;
+            height: 20px;
+            background-color: black;
+            border-radius: 50%;
+            margin-bottom: 20px;
         }
-        .line div.active {
-            background-color: #00f; /* 活動狀態的背景顏色 */
-        }
-        .line div.name {
-            color: #f00; /* 名稱的文字顏色 */
-        }
-        .line div.number {
-            color: #0f0; /* 數字的文字顏色 */
-        }
-        .start-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .input-container {
-            margin-top: 20px;
-        }
-        .middle-line {
-            width: 80%;
-            border-bottom: 2px solid #333;
-            margin: 10px 0;
+
+        .number {
+            font-size: 18px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-
-<div id="amidakuji-container">
-    <div class="line-container">
-        <div class="line" id="line1">
-            <div></div>
-            <div></div>
+    <h1>Amidakuji Game</h1>
+    <div id="game-container">
+        <div class="column" id="column-a">
+            <div class="dot"></div>
+            <div class="number">a</div>
         </div>
-        <div class="line" id="line2">
-            <div></div>
-            <div></div>
+        <div class="line"></div>
+        <div class="column" id="column-b">
+            <div class="dot"></div>
+            <div class="number">b</div>
         </div>
-        <div class="line" id="line3">
-            <div></div>
-            <div></div>
+        <div class="line"></div>
+        <div class="column" id="column-c">
+            <div class="dot"></div>
+            <div class="number">c</div>
         </div>
-        <div class="line" id="line4">
-            <div></div>
-            <div></div>
+        <div class="line"></div>
+        <div class="column" id="column-d">
+            <div class="dot"></div>
+            <div class="number">d</div>
         </div>
-        <div class="line" id="line5">
-            <div></div>
-            <div></div>
+        <div class="line"></div>
+        <div class="column" id="column-e">
+            <div class="dot"></div>
+            <div class="number">e</div>
         </div>
-        <div class="line" id="line6">
-            <div></div>
-            <div></div>
+        <div class="line"></div>
+        <div class="column" id="column-f">
+            <div class="dot"></div>
+            <div class="number">f</div>
         </div>
-        <div class="middle-line"></div>
+        <div class="line"></div>
+        <div class="column" id="column-g">
+            <div class="dot"></div>
+            <div class="number">g</div>
+        </div>
+        <div class="line"></div>
+        <div class="column" id="column-h">
+            <div class="dot"></div>
+            <div class="number">h</div>
+        </div>
+        <div class="line"></div>
+        <div class="column" id="column-i">
+            <div class="dot"></div>
+            <div class="number">i</div>
+        </div>
     </div>
-    <div class="input-container">
-        <label for="startInput">出發點名稱:</label>
-        <input type="text" id="startInput">
-        <label for="endInput">終點名稱:</label>
-        <input type="text" id="endInput">
-        <label for="nameInput">名稱:</label>
-        <input type="text" id="nameInput">
-        <label for="numberInput">數字:</label>
-        <input type="number" id="numberInput" min="1" max="2">
-    </div>
-    <button class="start-btn" onclick="startAmidakuji()">Start Amidakuji</button>
-</div>
 
-<script>
-    function startAmidakuji() {
-        resetLines();
-        let lines = document.querySelectorAll('.line');
-        let startInput = document.getElementById('startInput').value;
-        let endInput = document.getElementById('endInput').value;
-        let nameInput = document.getElementById('nameInput').value;
-        let numberInput = parseInt(document.getElementById('numberInput').value);
-        let result = [];
-
-        if (!startInput || !endInput || !nameInput || isNaN(numberInput) || numberInput < 1 || numberInput > 2) {
-            alert('請輸入有效的名稱和數字（1或2）！');
-            return;
-        }
-
-        // Display the name at the starting point with color
-        lines[0].children[numberInput - 1].textContent = startInput;
-        lines[0].children[numberInput - 1].classList.add('name');
-
-        // Display the name at the ending point with color
-        lines[lines.length - 1].children[1 - numberInput].textContent = endInput;
-        lines[lines.length - 1].children[1 - numberInput].classList.add('name');
-
-        for (let i = 0; i < lines.length; i++) {
-            let randomIndex = Math.floor(Math.random() * 2);
-            result.push(randomIndex);
-            lines[i].children[randomIndex].classList.add('active');
-            lines[i].children[1 - randomIndex].textContent = nameInput; // Display the name
-            lines[i].children[1 - randomIndex].classList.add('name');
-        }
-
-        // Display the result (optional)
-        console.log(startInput, endInput, nameInput, numberInput, result);
-    }
-
-    function resetLines() {
-        let lines = document.querySelectorAll('.line');
-        for (let i = 0; i < lines.length; i++) {
-            let cells = lines[i].children;
-            for (let j = 0; j < cells.length; j++) {
-                cells[j].classList.remove('active', 'name', 'number');
-                cells[j].textContent = ''; // Clear previous names and numbers
+    <script>
+        // Function to randomly shuffle an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
         }
-    }
-</script>
 
+        // Function to initialize the game
+        function initializeGame() {
+            // Array representing the positions of numbers 1 to 9
+            const positions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+            // Shuffle the positions array
+            shuffleArray(positions);
+
+            // Set the positions for each column
+            document.getElementById('column-a').style.order = positions[0];
+            document.getElementById('column-b').style.order = positions[1];
+            document.getElementById('column-c').style.order = positions[2];
+            document.getElementById('column-d').style.order = positions[3];
+            document.getElementById('column-e').style.order = positions[4];
+            document.getElementById('column-f').style.order = positions[5];
+            document.getElementById('column-g').style.order = positions[6];
+            document.getElementById('column-h').style.order = positions[7];
+            document.getElementById('column-i').style.order = positions[8];
+        }
+
+        // Call the initializeGame function when the page loads
+        window.onload = initializeGame;
+    </script>
 </body>
 </html>
