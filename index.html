@@ -28,12 +28,13 @@
         }
 
         .horizontal-line {
-            width: 100%;
+            width: 0;
             height: 2px;
             background-color: #333;
             position: absolute;
             top: 50%;
             transform: translateY(-1px);
+            transition: width 1s ease-in-out;
         }
 
         .pair {
@@ -72,8 +73,8 @@
             return pairs;
         }
 
-        // Function to display ladder with vertical and horizontal lines
-        function displayLadder(pairs) {
+        // Function to display ladder with animation
+        function displayLadderWithAnimation(pairs) {
             const ladderContainer = document.getElementById('ladder-container');
             ladderContainer.innerHTML = '';
 
@@ -99,6 +100,12 @@
                 numberElement.classList.add('number');
                 numberElement.textContent = pair.number;
                 pairElement.appendChild(numberElement);
+
+                // Trigger the animation after a delay
+                setTimeout(() => {
+                    horizontalLine.style.width = '100%';
+                    horizontalLine.style.backgroundColor = 'red';
+                }, 1000 * pairs.indexOf(pair));
             });
         }
 
@@ -106,9 +113,9 @@
         const set1Names = ['Player1', 'Player2', 'Player3', 'Player4'];
         const set2Numbers = [1, 2, 3, 4];
 
-        // Create ladder pairs and display
+        // Create ladder pairs and display with animation
         const ladderPairs = createLadderPairs(set1Names, set2Numbers);
-        displayLadder(ladderPairs);
+        displayLadderWithAnimation(ladderPairs);
     </script>
 </body>
 
