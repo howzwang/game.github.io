@@ -90,6 +90,9 @@
             return;
         }
 
+        // Display the name at the starting point
+        lines[0].children[numberInput - 1].textContent = nameInput;
+
         for (let i = 0; i < lines.length; i++) {
             let randomIndex = Math.floor(Math.random() * 2);
             result.push(randomIndex);
@@ -106,6 +109,7 @@
             let cells = lines[i].children;
             for (let j = 0; j < cells.length; j++) {
                 cells[j].classList.remove('active');
+                cells[j].textContent = ''; // Clear previous names
             }
         }
     }
