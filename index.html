@@ -1,127 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amidakuji Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-
-        #game-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 30px;
-        }
-
-        .line {
-            width: 100px;
-            height: 2px;
-            background-color: black;
-        }
-
-        .column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .dot {
-            width: 20px;
-            height: 20px;
-            background-color: black;
-            border-radius: 50%;
-            margin-bottom: 10px;
-        }
-
-        .number {
-            font-size: 18px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exhibition Content</title>
+  <style>
+    /* Add your styles here */
+  </style>
 </head>
 <body>
-    <h1>Amidakuji Game</h1>
-    <div id="game-container">
-        <div class="column" id="column-a">
-            <div class="dot"></div>
-            <div class="number">a</div>
-        </div>
-        <div class="line"></div>
-        <div class="column" id="column-b">
-            <div class="dot"></div>
-            <div class="number">b</div>
-        </div>
-        <div class="line"></div>
-        <div class="column" id="column-c">
-            <div class="dot"></div>
-            <div class="number">c</div>
-        </div>
-        <div class="line"></div>
-        <div class="column" id="column-d">
-            <div class="dot"></div>
-            <div class="number">d</div>
-        </div>
-        <div class="line"></div>
-        <div class="column" id="column-e">
-            <div class="dot"></div>
-            <div class="number">e</div>
-        </div>
-        <div class="line"></div>
-        <div class="column" id="column-f">
-            <div class="dot"></div>
-            <div class="number">f</div>
-        </div>
-        <div class="line"></div>
-        <div class="column" id="column-g">
-            <div class="dot"></div>
-            <div class="number">g</div>
-        </div>
-        <div class="line"></div>
-        <div class="column" id="column-h">
-            <div class="dot"></div>
-            <div class="number">h</div>
-        </div>
-        <div class="line"></div>
-        <div class="column" id="column-i">
-            <div class="dot"></div>
-            <div class="number">i</div>
-        </div>
-    </div>
+  <div id="menu3Content"></div>
+  <div id="menu4Content"></div>
 
-    <script>
-        // Function to randomly shuffle an array
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
+  <script>
+    // Fetch content for menu3
+    fetch('https://www.twtc.com.tw/exhibition.aspx?p=menu1#menu3')
+      .then(response => response.text())
+      .then(data => {
+        const menu3Content = new DOMParser().parseFromString(data, 'text/html')
+          .getElementById('content'); // Adjust the selector based on the actual structure of the page
+        document.getElementById('menu3Content').innerHTML = menu3Content.innerHTML;
+      })
+      .catch(error => console.error('Error fetching menu3 content:', error));
 
-        // Function to initialize the game
-        function initializeGame() {
-            // Array representing the positions of numbers 1 to 9
-            const positions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-            // Shuffle the positions array
-            shuffleArray(positions);
-
-            // Set the positions for each column
-            document.getElementById('column-a').style.order = positions[0];
-            document.getElementById('column-b').style.order = positions[1];
-            document.getElementById('column-c').style.order = positions[2];
-            document.getElementById('column-d').style.order = positions[3];
-            document.getElementById('column-e').style.order = positions[4];
-            document.getElementById('column-f').style.order = positions[5];
-            document.getElementById('column-g').style.order = positions[6];
-            document.getElementById('column-h').style.order = positions[7];
-            document.getElementById('column-i').style.order = positions[8];
-        }
-
-        // Call the initializeGame function when the page loads
-        window.onload = initializeGame;
-    </script>
+    // Fetch content for menu4
+    fetch('https://www.twtc.com.tw/exhibition.aspx?p=menu1#menu4')
+      .then(response => response.text())
+      .then(data => {
+        const menu4Content = new DOMParser().parseFromString(data, 'text/html')
+          .getElementById('content'); // Adjust the selector based on the actual structure of the page
+        document.getElementById('menu4Content').innerHTML = menu4Content.innerHTML;
+      })
+      .catch(error => console.error('Error fetching menu4 content:', error));
+  </script>
 </body>
 </html>
