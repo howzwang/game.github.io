@@ -30,6 +30,12 @@
         .line div.active {
             background-color: #00f; /* 活動狀態的背景顏色 */
         }
+        .line div.name {
+            color: #f00; /* 名稱的文字顏色 */
+        }
+        .line div.number {
+            color: #0f0; /* 數字的文字顏色 */
+        }
         .start-btn {
             margin-top: 20px;
             padding: 10px 20px;
@@ -90,13 +96,16 @@
             return;
         }
 
-        // Display the name at the starting point
+        // Display the name at the starting point with color
         lines[0].children[numberInput - 1].textContent = nameInput;
+        lines[0].children[numberInput - 1].classList.add('name');
 
         for (let i = 0; i < lines.length; i++) {
             let randomIndex = Math.floor(Math.random() * 2);
             result.push(randomIndex);
             lines[i].children[randomIndex].classList.add('active');
+            lines[i].children[1 - randomIndex].textContent = numberInput; // Display the number
+            lines[i].children[1 - randomIndex].classList.add('number');
         }
 
         // Display the result (optional)
@@ -108,8 +117,8 @@
         for (let i = 0; i < lines.length; i++) {
             let cells = lines[i].children;
             for (let j = 0; j < cells.length; j++) {
-                cells[j].classList.remove('active');
-                cells[j].textContent = ''; // Clear previous names
+                cells[j].classList.remove('active', 'name', 'number');
+                cells[j].textContent = ''; // Clear previous names and numbers
             }
         }
     }
