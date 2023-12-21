@@ -11,6 +11,9 @@
             text-align: center;
             margin: 20px;
         }
+        #nameInput {
+            margin-bottom: 10px;
+        }
         .kuji-container {
             display: flex;
             justify-content: center;
@@ -21,9 +24,6 @@
             border: 1px solid #333;
             height: 200px;
             margin: 0 10px;
-        }
-        #nameInput {
-            margin-top: 20px;
         }
         #result {
             margin-top: 20px;
@@ -37,7 +37,8 @@
     <label for="nameInput">Enter your name:</label>
     <input type="text" id="nameInput" placeholder="Your Name">
 
-    <p>Ask a question and follow the path to reveal your answer!</p>
+    <!-- Button to start the game -->
+    <button onclick="startGame()">Start Game</button>
 
     <div class="kuji-container">
         <!-- Amida-kuji lines will be generated here -->
@@ -52,12 +53,15 @@
         const nameInput = document.getElementById('nameInput');
         const resultDiv = document.getElementById('result');
 
-        // Generate Amida-kuji lines
-        for (let i = 1; i <= 9; i++) {
-            const kujiLine = document.createElement('div');
-            kujiLine.classList.add('kuji-line');
-            kujiLine.setAttribute('data-number', i);
-            kujiContainer.appendChild(kujiLine);
+        // Function to generate Amida-kuji lines
+        function generateKujiLines() {
+            kujiContainer.innerHTML = '';
+            for (let i = 1; i <= 9; i++) {
+                const kujiLine = document.createElement('div');
+                kujiLine.classList.add('kuji-line');
+                kujiLine.setAttribute('data-number', i);
+                kujiContainer.appendChild(kujiLine);
+            }
         }
 
         // Function to reveal the answer
@@ -67,11 +71,15 @@
             answerLine.style.backgroundColor = '#FF0000'; // Highlight the answer
 
             const playerName = nameInput.value || 'Anonymous'; // Use entered name or 'Anonymous' if empty
-            resultDiv.innerHTML = `<p>${playerName}, your answer is: <strong>${randomNumber}</strong></p>`;
+            resultDiv.innerHTML = `<p><strong>${playerName}</strong>, your answer is: <strong>${randomNumber}</strong></p>`;
         }
 
-        // Attach click event to reveal the answer
-        kujiContainer.addEventListener('click', revealAnswer);
+        // Function to start the game
+        function startGame() {
+            generateKujiLines();
+            resultDiv.innerHTML = ''; // Clear previous results
+            kujiContainer.addEventListener('click', revealAnswer);
+        }
     </script>
 </body>
 </html>
