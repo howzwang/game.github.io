@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ladder Game</title>
+    <title>AMIDA Game</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,13 +28,22 @@
         }
 
         .horizontal-line {
-            width: 0;
+            width: 100%;
             height: 2px;
             background-color: #333;
             position: absolute;
             top: 50%;
             transform: translateY(-1px);
-            transition: width 1s ease-in-out, background-color 1s ease-in-out;
+        }
+
+        .cross-bar {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: red;
+            top: 50%;
+            transform: translateY(-1px);
+            display: none;
         }
 
         .pair {
@@ -57,7 +66,7 @@
 </head>
 
 <body>
-    <h1>Ladder Game</h1>
+    <h1>AMIDA Game</h1>
 
     <div id="ladder-container"></div>
 
@@ -73,8 +82,8 @@
             return pairs;
         }
 
-        // Function to display ladder with animation
-        function displayLadderWithAnimation(pairs) {
+        // Function to display ladder
+        function displayLadder(pairs) {
             const ladderContainer = document.getElementById('ladder-container');
             ladderContainer.innerHTML = '';
 
@@ -91,6 +100,10 @@
                 horizontalLine.classList.add('horizontal-line');
                 verticalLine.appendChild(horizontalLine);
 
+                const crossBar = document.createElement('div');
+                crossBar.classList.add('cross-bar');
+                verticalLine.appendChild(crossBar);
+
                 const pairElement = document.createElement('div');
                 pairElement.classList.add('pair');
                 verticalLine.appendChild(pairElement);
@@ -105,16 +118,21 @@
                 numberElement.textContent = pair.number;
                 pairElement.appendChild(numberElement);
 
-                // Trigger the animation after a delay
-                setTimeout(() => {
-                    horizontalLine.style.width = '100%';
-                    horizontalLine.style.backgroundColor = 'red';
-                }, 1000 * pairs.indexOf(pair));
+                // Attach click event to each pair to toggle the cross bar
+                pairElement.addEventListener('click', () => {
+                    crossBar.style.display = crossBar.style.display === 'none' ? 'block' : 'none';
+                });
             });
         }
 
         // Sample data
-        const set1Names = ['Player1', 'Player2', 'Player3', 'Player4'];
+        const set1Names = ['A', 'B', 'C', 'D'];
         const set2Numbers = [1, 2, 3, 4];
 
-        // Creat
+        // Create ladder pairs and display
+        const ladderPairs = createLadderPairs(set1Names, set2Numbers);
+        displayLadder(ladderPairs);
+    </script>
+</body>
+
+</html>
