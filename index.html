@@ -27,6 +27,9 @@
             height: 50px;
             border: 1px solid #333;
         }
+        .line div.active {
+            background-color: #00f; /* 活動狀態的背景顏色 */
+        }
         .start-btn {
             margin-top: 20px;
             padding: 10px 20px;
@@ -38,12 +41,30 @@
 <body>
 
 <div id="amidakuji-container">
-    <div class="line" id="line1"></div>
-    <div class="line" id="line2"></div>
-    <div class="line" id="line3"></div>
-    <div class="line" id="line4"></div>
-    <div class="line" id="line5"></div>
-    <div class="line" id="line6"></div>
+    <div class="line" id="line1">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="line" id="line2">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="line" id="line3">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="line" id="line4">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="line" id="line5">
+        <div></div>
+        <div></div>
+    </div>
+    <div class="line" id="line6">
+        <div></div>
+        <div></div>
+    </div>
     <button class="start-btn" onclick="startAmidakuji()">Start Amidakuji</button>
 </div>
 
