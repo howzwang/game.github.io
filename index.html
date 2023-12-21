@@ -3,35 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exhibition Content</title>
+  <title>Embedded Exhibitions</title>
   <style>
     /* Add your styles here */
+    iframe {
+      width: 100%;
+      height: 500px; /* Adjust the height as needed */
+      border: none; /* Remove border for cleaner look */
+    }
   </style>
 </head>
 <body>
-  <div id="menu3Content"></div>
-  <div id="menu4Content"></div>
+  <h2>Menu 3</h2>
+  <iframe src="https://www.twtc.com.tw/exhibition.aspx?p=menu1#menu3" title="Menu 3"></iframe>
 
-  <script>
-    // Fetch content for menu3
-    fetch('https://www.twtc.com.tw/exhibition.aspx?p=menu1#menu3')
-      .then(response => response.text())
-      .then(data => {
-        const menu3Content = new DOMParser().parseFromString(data, 'text/html')
-          .getElementById('content'); // Adjust the selector based on the actual structure of the page
-        document.getElementById('menu3Content').innerHTML = menu3Content.innerHTML;
-      })
-      .catch(error => console.error('Error fetching menu3 content:', error));
-
-    // Fetch content for menu4
-    fetch('https://www.twtc.com.tw/exhibition.aspx?p=menu1#menu4')
-      .then(response => response.text())
-      .then(data => {
-        const menu4Content = new DOMParser().parseFromString(data, 'text/html')
-          .getElementById('content'); // Adjust the selector based on the actual structure of the page
-        document.getElementById('menu4Content').innerHTML = menu4Content.innerHTML;
-      })
-      .catch(error => console.error('Error fetching menu4 content:', error));
-  </script>
+  <h2>Menu 4</h2>
+  <iframe src="https://www.twtc.com.tw/exhibition.aspx?p=menu1#menu4" title="Menu 4"></iframe>
 </body>
 </html>
