@@ -1,40 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMIDA Game</title>
-    <style>
-        /* Add some basic styling */
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amidakuji Game</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-        #amida-board {
-            display: inline-block;
-        }
-
-        input {
-            margin: 10px;
-            padding: 5px;
-            font-size: 16px;
-        }
-    </style>
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
 </head>
 <body>
+  <canvas id="amidakujiCanvas" width="400" height="300"></canvas>
 
-    <h1>Welcome to the AMIDA Game!</h1>
+  <script>
+    const canvas = document.getElementById('amidakujiCanvas');
+    const ctx = canvas.getContext('2d');
 
-    <div id="amida-board"></div>
+    const ladder = [
+      { x: 50, y: 20 },
+      { x: 150, y: 20 },
+      { x: 250, y: 20 },
+      { x: 350, y: 20 },
+    ];
 
-    <p id="ball-position"></p>
+    const drawLadder = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    <label for="move">Enter 'L' to move left, 'R' to move right:</label>
-    <input type="text" id="move" maxlength="1">
-    <button onclick="makeMove()">Make Move</button>
+      ctx.beginPath();
+      ladder.forEach((step, index) => {
+        ctx.moveTo(step.x, step.y);
+        ctx.lineTo(step.x, step.y + 60);
 
-    <script src="amida.js"></script>
+        if (index < ladder.length - 1) {
+          step.x += Math.random() * 20 - 10; // Add a little randomness to the steps
+        }
+      });
+      ctx.stroke();
+    };
+
+    const animate = () => {
+      drawLadder();
+      requestAnimationFrame(animate);
+    };
+
+    animate();
+  </script>
 </body>
 </html>
