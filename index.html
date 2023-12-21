@@ -1,138 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMIDA Game</title>
+    <title>Amida Game</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-
-        #ladder-container {
-            position: relative;
             display: flex;
-            align-items: flex-start;
-            margin-top: 20px;
-        }
-
-        .vertical-line {
-            width: 2px;
-            background-color: #333;
-            margin: 0 20px;
-            position: relative;
-            flex: 1;
-        }
-
-        .horizontal-line {
-            width: 100%;
-            height: 2px;
-            background-color: #333;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-1px);
-        }
-
-        .cross-bar {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background-color: red;
-            top: 50%;
-            transform: translateY(-1px);
-            display: none;
-        }
-
-        .pair {
-            position: relative;
-            display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
-            margin: 0 20px;
-            height: 100px;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
         }
 
-        .name,
-        .number {
-            background-color: #f9f9f9;
-            padding: 5px;
-            border: 1px solid #ccc;
+        canvas {
+            border: 2px solid #333;
         }
     </style>
 </head>
-
 <body>
-    <h1>AMIDA Game</h1>
-
-    <div id="ladder-container"></div>
-
+    <canvas id="amidaCanvas" width="600" height="400"></canvas>
     <script>
-        // Function to create ladder pairs
-        function createLadderPairs(names, numbers) {
-            const pairs = [];
+        const canvas = document.getElementById('amidaCanvas');
+        const ctx = canvas.getContext('2d');
 
-            for (let i = 0; i < names.length; i++) {
-                pairs.push({ name: names[i], number: numbers[i] });
+        const columns = 5;
+        const rows = 4;
+        const lineHeight = canvas.height / (rows + 1);
+
+        let amidaLines = [];
+
+        function initializeAmidaLines() {
+            for (let i = 0; i < columns; i++) {
+                const x = (i + 1) * canvas.width / (columns + 1);
+                const startY = lineHeight;
+                const endY = canvas.height - lineHeight;
+
+                amidaLines.push({ x, startY, endY });
             }
-
-            return pairs;
         }
 
-        // Function to display ladder
-        function displayLadder(pairs) {
-            const ladderContainer = document.getElementById('ladder-container');
-            ladderContainer.innerHTML = '';
+        function drawAmidaLines() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Determine the maximum height of the vertical lines
-            const maxHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-            pairs.forEach(pair => {
-                const verticalLine = document.createElement('div');
-                verticalLine.classList.add('vertical-line');
-                verticalLine.style.height = `${maxHeight}px`;
-                ladderContainer.appendChild(verticalLine);
-
-                const horizontalLine = document.createElement('div');
-                horizontalLine.classList.add('horizontal-line');
-                verticalLine.appendChild(horizontalLine);
-
-                const crossBar = document.createElement('div');
-                crossBar.classList.add('cross-bar');
-                verticalLine.appendChild(crossBar);
-
-                const pairElement = document.createElement('div');
-                pairElement.classList.add('pair');
-                verticalLine.appendChild(pairElement);
-
-                const nameElement = document.createElement('div');
-                nameElement.classList.add('name');
-                nameElement.textContent = pair.name;
-                pairElement.appendChild(nameElement);
-
-                const numberElement = document.createElement('div');
-                numberElement.classList.add('number');
-                numberElement.textContent = pair.number;
-                pairElement.appendChild(numberElement);
-
-                // Attach click event to each pair to toggle the cross bar
-                pairElement.addEventListener('click', () => {
-                    crossBar.style.display = crossBar.style.display === 'none' ? 'block' : 'none';
-                });
+            amidaLines.forEach(line => {
+                ctx.beginPath();
+                ctx.moveTo(line.x, line.startY);
+                ctx.lineTo(line.x, line.endY);
+                ctx.stroke();
             });
         }
 
-        // Sample data
-        const set1Names = ['A', 'B', 'C', 'D'];
-        const set2Numbers = [1, 2, 3, 4];
+        function shuffleAmidaLines() {
+            amidaLines.sort(() => Math.random() - 0.5);
+        }
 
-        // Create ladder pairs and display
-        const ladderPairs = createLadderPairs(set1Names, set2Numbers);
-        displayLadder(ladderPairs);
+        function drawAmida() {
+            initializeAmidaLines();
+            shuffleAmidaLines();
+            drawAmidaLines();
+        }
+
+        drawAmida();
+
+        canvas.addEventListener('click', (event) => {
+            const mouseX = event.clientX - canvas.getBoundingClientRect().left;
+            const mouseY = event.clientY - canvas.getBoundingClientRect().top;
+
+            amidaLines.forEach(line => {
+                if (Math.abs(mouseX - line.x) < 10 && mouseY > line.startY && mouseY < line.endY) {
+                    shuffleAmidaLines();
+                    drawAmidaLines();
+                    break;
+                }
+            });
+        });
     </script>
 </body>
-
 </html>
