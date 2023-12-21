@@ -3,79 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amida Game</title>
+    <title>AMIDA Game</title>
     <style>
+        /* Add some basic styling */
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 20px;
         }
 
-        canvas {
-            border: 2px solid #333;
+        #amida-board {
+            display: inline-block;
+        }
+
+        input {
+            margin: 10px;
+            padding: 5px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <canvas id="amidaCanvas" width="600" height="400"></canvas>
-    <script>
-        const canvas = document.getElementById('amidaCanvas');
-        const ctx = canvas.getContext('2d');
 
-        const columns = 5;
-        const rows = 4;
-        const lineHeight = canvas.height / (rows + 1);
+    <h1>Welcome to the AMIDA Game!</h1>
 
-        let amidaLines = [];
+    <div id="amida-board"></div>
 
-        function initializeAmidaLines() {
-            for (let i = 0; i < columns; i++) {
-                const x = (i + 1) * canvas.width / (columns + 1);
-                const startY = lineHeight;
-                const endY = canvas.height - lineHeight;
+    <p id="ball-position"></p>
 
-                amidaLines.push({ x, startY, endY });
-            }
-        }
+    <label for="move">Enter 'L' to move left, 'R' to move right:</label>
+    <input type="text" id="move" maxlength="1">
+    <button onclick="makeMove()">Make Move</button>
 
-        function drawAmidaLines() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            amidaLines.forEach(line => {
-                ctx.beginPath();
-                ctx.moveTo(line.x, line.startY);
-                ctx.lineTo(line.x, line.endY);
-                ctx.stroke();
-            });
-        }
-
-        function shuffleAmidaLines() {
-            amidaLines.sort(() => Math.random() - 0.5);
-        }
-
-        function drawAmida() {
-            initializeAmidaLines();
-            shuffleAmidaLines();
-            drawAmidaLines();
-        }
-
-        drawAmida();
-
-        canvas.addEventListener('click', (event) => {
-            const mouseX = event.clientX - canvas.getBoundingClientRect().left;
-            const mouseY = event.clientY - canvas.getBoundingClientRect().top;
-
-            amidaLines.forEach(line => {
-                if (Math.abs(mouseX - line.x) < 10 && mouseY > line.startY && mouseY < line.endY) {
-                    shuffleAmidaLines();
-                    drawAmidaLines();
-                    break;
-                }
-            });
-        });
-    </script>
+    <script src="amida.js"></script>
 </body>
 </html>
