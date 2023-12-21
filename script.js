@@ -1,21 +1,19 @@
-const pairs = [
-    { name: 'Alice', number: 1 },
-    { name: 'Bob', number: 2 },
-    { name: 'Charlie', number: 3 },
-    // Add more pairs as needed
-];
-
 const gameContainer = document.getElementById('game-container');
 let selectedCards = [];
 
 function createGameBoard() {
-    pairs.forEach(pair => {
+    const numberOfPairs = prompt('Enter the number of pairs:');
+    
+    for (let i = 1; i <= numberOfPairs; i++) {
+        const name = prompt(`Enter name for Pair ${i}:`);
+        const number = prompt(`Enter number for Pair ${i}:`);
+
         const card = document.createElement('div');
         card.classList.add('card');
         card.textContent = '?'; // Display a question mark initially
-        card.addEventListener('click', () => flipCard(card, pair));
+        card.addEventListener('click', () => flipCard(card, { name, number }));
         gameContainer.appendChild(card);
-    });
+    }
 }
 
 function flipCard(card, pair) {
