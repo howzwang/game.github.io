@@ -15,6 +15,11 @@
             flex-direction: column;
             align-items: center;
         }
+        .line-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .line {
             display: flex;
             align-items: center;
@@ -45,36 +50,48 @@
         .input-container {
             margin-top: 20px;
         }
+        .middle-line {
+            width: 80%;
+            border-bottom: 2px solid #333;
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
 
 <div id="amidakuji-container">
-    <div class="line" id="line1">
-        <div></div>
-        <div></div>
-    </div>
-    <div class="line" id="line2">
-        <div></div>
-        <div></div>
-    </div>
-    <div class="line" id="line3">
-        <div></div>
-        <div></div>
-    </div>
-    <div class="line" id="line4">
-        <div></div>
-        <div></div>
-    </div>
-    <div class="line" id="line5">
-        <div></div>
-        <div></div>
-    </div>
-    <div class="line" id="line6">
-        <div></div>
-        <div></div>
+    <div class="line-container">
+        <div class="line" id="line1">
+            <div></div>
+            <div></div>
+        </div>
+        <div class="line" id="line2">
+            <div></div>
+            <div></div>
+        </div>
+        <div class="line" id="line3">
+            <div></div>
+            <div></div>
+        </div>
+        <div class="line" id="line4">
+            <div></div>
+            <div></div>
+        </div>
+        <div class="line" id="line5">
+            <div></div>
+            <div></div>
+        </div>
+        <div class="line" id="line6">
+            <div></div>
+            <div></div>
+        </div>
+        <div class="middle-line"></div>
     </div>
     <div class="input-container">
+        <label for="startInput">出發點名稱:</label>
+        <input type="text" id="startInput">
+        <label for="endInput">終點名稱:</label>
+        <input type="text" id="endInput">
         <label for="nameInput">名稱:</label>
         <input type="text" id="nameInput">
         <label for="numberInput">數字:</label>
@@ -87,29 +104,35 @@
     function startAmidakuji() {
         resetLines();
         let lines = document.querySelectorAll('.line');
+        let startInput = document.getElementById('startInput').value;
+        let endInput = document.getElementById('endInput').value;
         let nameInput = document.getElementById('nameInput').value;
         let numberInput = parseInt(document.getElementById('numberInput').value);
         let result = [];
 
-        if (!nameInput || isNaN(numberInput) || numberInput < 1 || numberInput > 2) {
+        if (!startInput || !endInput || !nameInput || isNaN(numberInput) || numberInput < 1 || numberInput > 2) {
             alert('請輸入有效的名稱和數字（1或2）！');
             return;
         }
 
         // Display the name at the starting point with color
-        lines[0].children[numberInput - 1].textContent = nameInput;
+        lines[0].children[numberInput - 1].textContent = startInput;
         lines[0].children[numberInput - 1].classList.add('name');
+
+        // Display the name at the ending point with color
+        lines[lines.length - 1].children[1 - numberInput].textContent = endInput;
+        lines[lines.length - 1].children[1 - numberInput].classList.add('name');
 
         for (let i = 0; i < lines.length; i++) {
             let randomIndex = Math.floor(Math.random() * 2);
             result.push(randomIndex);
             lines[i].children[randomIndex].classList.add('active');
-            lines[i].children[1 - randomIndex].textContent = numberInput; // Display the number
-            lines[i].children[1 - randomIndex].classList.add('number');
+            lines[i].children[1 - randomIndex].textContent = nameInput; // Display the name
+            lines[i].children[1 - randomIndex].classList.add('name');
         }
 
         // Display the result (optional)
-        console.log(nameInput, numberInput, result);
+        console.log(startInput, endInput, nameInput, numberInput, result);
     }
 
     function resetLines() {
