@@ -94,6 +94,9 @@
         <label for="playerNumber">Your Number:</label>
         <input type="text" id="playerNumber" name="playerNumber" required>
 
+        <label for="winningNumber">Your Winning Number:</label>
+        <input type="text" id="winningNumber" name="winningNumber" required>
+
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
@@ -114,16 +117,12 @@
         function submitForm() {
             const playerName = document.getElementById('playerName').value;
             const playerNumber = document.getElementById('playerNumber').value;
+            const winningNumber = document.getElementById('winningNumber').value;
 
             const tableBody = document.getElementById('lotteryResults');
             const newRow = document.createElement('tr');
-            newRow.innerHTML = `<td>${playerName}</td><td>${playerNumber}</td><td>${getRandomNumber()}</td>`;
+            newRow.innerHTML = `<td>${playerName}</td><td>${playerNumber}</td><td>${winningNumber}</td>`;
             tableBody.appendChild(newRow);
-        }
-
-        function getRandomNumber() {
-            // Generate a random winning number (customize as needed)
-            return Math.floor(Math.random() * 1000) + 1;
         }
     </script>
 
