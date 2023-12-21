@@ -22,19 +22,35 @@
             height: 200px;
             margin: 0 10px;
         }
+        #nameInput {
+            margin-top: 20px;
+        }
+        #result {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>Amida-Kuji Game</h1>
+    
+    <!-- Input for entering a name -->
+    <label for="nameInput">Enter your name:</label>
+    <input type="text" id="nameInput" placeholder="Your Name">
+
     <p>Ask a question and follow the path to reveal your answer!</p>
 
     <div class="kuji-container">
         <!-- Amida-kuji lines will be generated here -->
     </div>
 
+    <!-- Display the selected number and paired name -->
+    <div id="result"></div>
+
     <script>
         // JavaScript code for the Amida-kuji game
         const kujiContainer = document.querySelector('.kuji-container');
+        const nameInput = document.getElementById('nameInput');
+        const resultDiv = document.getElementById('result');
 
         // Generate Amida-kuji lines
         for (let i = 1; i <= 9; i++) {
@@ -49,7 +65,9 @@
             const randomNumber = Math.floor(Math.random() * 9) + 1;
             const answerLine = document.querySelector(`.kuji-line[data-number="${randomNumber}"]`);
             answerLine.style.backgroundColor = '#FF0000'; // Highlight the answer
-            alert(`Your answer is: ${randomNumber}`);
+
+            const playerName = nameInput.value || 'Anonymous'; // Use entered name or 'Anonymous' if empty
+            resultDiv.innerHTML = `<p>${playerName}, your answer is: <strong>${randomNumber}</strong></p>`;
         }
 
         // Attach click event to reveal the answer
